@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Discord Server Joiner</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+        .result {
+            margin-top: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #e9ecef;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Discord Server Joiner</h1>
+        <div class="input-group">
+            <label for="serverId">ID del Servidor de Discord:</label>
+            <input type="text" id="serverId" placeholder="Ingresa el ID del servidor">
+        </div>
+        <div class="input-group">
+            <label for="userCount">Número de Usuarios a Añadir:</label>
+            <input type="number" id="userCount" value="2000" min="1">
+        </div>
+        <a href="#" class="button" onclick="joinServer()">Unirse al Servidor y Añadir Usuarios</a>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        async function joinServer() {
+            const serverId = document.getElementById('serverId').value;
+            const userCount = document.getElementById('userCount').value;
+
+            if (!serverId) {
+                document.getElementById('result').innerText = 'Por favor, ingresa un ID de servidor válido.';
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/join?serverId=${serverId}&userCount=${userCount}`);
+                const data = await response.json();
+                document.getElementById('result').innerText = data.message;
+            } catch (error) {
+                document.getElementById('result').innerText = 'Ocurrió un error al unir el servidor y añadir usuarios.';
+            }
+        }
+    </script>
+</body>
+</html>
